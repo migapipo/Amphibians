@@ -5,13 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.amphibians.data.Amphibians
 import com.example.amphibians.network.AmphibiansApi
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 
 sealed interface AmphibiansUiState {
-    data class Success(val result: String): AmphibiansUiState
+    data class Success(val result: List<Amphibians>): AmphibiansUiState
     object Loading: AmphibiansUiState
     object Error: AmphibiansUiState
 
@@ -32,7 +33,8 @@ class AmphibiansViewModel: ViewModel() {
             amphibiansUiState = try {
                 val result = AmphibiansApi.retrofitService.getAmphibians()
                 AmphibiansUiState.Success(
-                    "Success: ${result.size} amphibians retrieved"
+                    result
+//                    "Success: ${result.size} amphibians retrieved"
                 )
             }catch (e: java.io.IOException) {
                 AmphibiansUiState.Error
