@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.amphibians.ui.screens.AmphibiansViewModel
 import com.example.amphibians.ui.screens.HomeScreen
@@ -19,8 +20,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AmphibiansTheme {
-                val viewModel: AmphibiansViewModel = viewModel()
-                HomeScreen(viewModel.amphibiansUiState, modifier = Modifier)
+//                val viewModel: AmphibiansViewModel = viewModel()
+                val amphibianViewModel: AmphibiansViewModel =
+                    viewModel(factory = AmphibiansViewModel.Factory)
+                HomeScreen(
+                    amphibianViewModel.amphibiansUiState,
+                    retryAction = amphibianViewModel::getAmphibians,
+                    modifier = Modifier
+                )
             }
         }
     }

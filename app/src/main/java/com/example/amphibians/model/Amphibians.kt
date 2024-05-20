@@ -1,4 +1,4 @@
-package com.example.amphibians.data
+package com.example.amphibians.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
